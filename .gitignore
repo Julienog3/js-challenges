@@ -1,0 +1,10 @@
+.DS_Store
+.pnpm-store
+node_modules
+dist
+build
+converage
+tests-examples
+.env
+.vscode
+.idea
