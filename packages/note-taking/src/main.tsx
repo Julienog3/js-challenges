@@ -2,15 +2,15 @@ import './index.css';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
-import { Example } from './components/example.jsx';
+import { App } from './app/app.js';
 
-const container = document.querySelector('#root');
+const rootElement = document.querySelector('#root');
+if (!rootElement) throw new Error('Container element does not exist.')
 
-if (container) {
-	const root = createRoot(container);
-	root.render(
-		<React.StrictMode>
-			<Example />
-		</React.StrictMode>,
-	);
-}
+const root = createRoot(rootElement);
+root.render(
+	<React.StrictMode>
+		<App />
+	</React.StrictMode>,
+);
+
