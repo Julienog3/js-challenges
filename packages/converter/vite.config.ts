@@ -8,6 +8,8 @@ export default defineConfig({
 	test: {
 		include: ['tests/unit/**/*.test.ts'],
 		setupFiles: './tests/setup.ts',
+		globals: true,
+    environment: "jsdom",
 	},
 	server: {
 		port: 4000,

@@ -7,14 +7,14 @@ const targetCurrencyElement = document.querySelector<HTMLSelectElement>('#target
 const valueElement = document.querySelector<HTMLInputElement>('#value')
 const formElement = document.querySelector<HTMLFormElement>('#form')
 const resultElement = document.querySelector<HTMLParagraphElement>('#result')
-const conversionHistoryElement = document.querySelector<HTMLTableElement>('#conversion-history tbody')
+const conversionsTableElement = document.querySelector<HTMLTableElement>('#conversions-table tbody')
 
 let baseCurrency: string;
 let targetCurrency: string;
 
 const currencies = await fetchCurrencies()
 
-if (!baseCurrencyElement || !targetCurrencyElement || !formElement || !conversionHistoryElement) {
+if (!baseCurrencyElement || !targetCurrencyElement || !formElement || !conversionsTableElement) {
   throw new Error('Elements not defined')
 }
 
@@ -40,10 +40,10 @@ function saveConversion(base: string, result: string) {
     convertedAt: new Date().toLocaleString()
   }
 
-  if (!conversionHistoryElement) return
+  if (!conversionsTableElement) return
 
   const tableRowElement = createTableRow(Object.values(conversion))
-  conversionHistoryElement.prepend(tableRowElement)
+  conversionsTableElement.prepend(tableRowElement)
 }
 
 function displayConversionResult(resultLabel: string) {
