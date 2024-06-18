@@ -1,19 +1,20 @@
 import './style.css';
 import { fetchCurrencies, fetchLatestExchangeRates } from './api';
-import type { Currencies } from '../types/currency';
+import type { Conversion, Currencies } from '../types/currency';
 
 const baseCurrencyElement = document.querySelector<HTMLSelectElement>('#base-currency')
 const targetCurrencyElement = document.querySelector<HTMLSelectElement>('#target-currency')
 const valueElement = document.querySelector<HTMLInputElement>('#value')
 const formElement = document.querySelector<HTMLFormElement>('#form')
 const resultElement = document.querySelector<HTMLParagraphElement>('#result')
+const conversionHistoryElement = document.querySelector<HTMLTableElement>('#conversion-history tbody')
 
 let baseCurrency: string;
 let targetCurrency: string;
 
 const currencies = await fetchCurrencies()
 
-if (!baseCurrencyElement || !targetCurrencyElement || !formElement) {
+if (!baseCurrencyElement || !targetCurrencyElement || !formElement || !conversionHistoryElement) {
   throw new Error('Elements not defined')
 }
 
@@ -32,10 +33,35 @@ async function convertCurrency(value: number, base: string, target: string) {
   return value * ratio[target]
 }
 
-function displayConvertionResult(result: number, element: Element) {
-  const label = document.createTextNode(`Le résultat est de ${result} ${currency?.symbol}`);
-  element.innerHTML = ''
-  element.appendChild(label)
+function saveConversion(base: string, result: string) {
+  const conversion: Conversion = {
+    baseCurrency: base,
+    targetCurrency: result,
+    convertedAt: new Date().toLocaleString()
+  }
+
+  if (!conversionHistoryElement) return
+
+  const tableRowElement = createTableRow(Object.values(conversion))
+  conversionHistoryElement.prepend(tableRowElement)
+}
+
+function displayConversionResult(resultLabel: string) {
+  if (!resultElement) return
+
+  const label = document.createTextNode(`Le résultat est de ${resultLabel}`);
+  resultElement.innerHTML = ''
+  resultElement.appendChild(label)
+}
+
+function createTableRow(columns: string[]) {
+  const rowElement = document.createElement('tr')
+  Object.values(columns).forEach((column) => {
+    const columnElement = document.createElement('td')
+    columnElement.innerHTML = column
+    rowElement.appendChild(columnElement)
+  })
+  return rowElement
 }
 
 addCurrenciesToElement(baseCurrencyElement, currencies)
@@ -61,7 +87,9 @@ formElement.addEventListener('submit', async (e) => {
 
   const currency = currencies[targetCurrency]
 
-  const label = document.createTextNode(`Le résultat est de ${result} ${currency?.symbol}`);
-  resultElement.innerHTML = ''
-  resultElement.appendChild(label)
+  const baseLabel = `${value.toFixed(2)} ${baseCurrency}`
+  const resultLabel = `${result.toFixed(2)} ${currency?.symbol}`
+  
+  saveConversion(baseLabel, resultLabel)
+  displayConversionResult(resultLabel)
 })

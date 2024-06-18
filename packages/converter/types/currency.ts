@@ -11,6 +11,10 @@ export interface Currencies {
   }
 }
 
-
-
 export type LatestExchangeRate = Record<string, number>
+
+export interface Conversion {
+  baseCurrency: string
+  targetCurrency: string
+  convertedAt: string
+}
