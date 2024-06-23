@@ -1,17 +1,16 @@
 import type React from "react";
+
 import { Header } from "./header";
-import { Aside } from "./aside";
+import styles from "./layout.module.css"
 
 export function Layout({ children }: React.PropsWithChildren): JSX.Element {
   return (
-    <>
+    <div className={styles['layout']}>
       <Header />
-      <div className="flex">
-        <Aside />
-        <main className="container min-h-screen p-4">
-          {children}
-        </main>
-      </div>
-    </>
+      <main className={styles['page']}>
+        {children}
+      </main>
+    </div>
   )
 }
+

@@ -1,0 +1,21 @@
+.button {
+  all: unset;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  background-color: var(--main-color);
+  padding: .75rem 1rem;
+  width: fit-content;
+  border-radius: 0.25rem;
+  font-weight: 400;
+  color: #000;
+  cursor: pointer;
+}
+
+.primary {
+  background-color: #fff;
+}
+
+.secondary {
+  background-color: var(--main-color);
+}

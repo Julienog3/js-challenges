@@ -1,0 +1,17 @@
+.noteForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.noteFormRow {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.noteFormLabel {
+  color: #fff;
+  font-weight: 500;
+}

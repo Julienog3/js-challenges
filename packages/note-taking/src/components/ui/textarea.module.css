@@ -1,0 +1,10 @@
+.textarea {
+  all: unset;
+  padding: .5rem;
+  color: #fff;
+  border: 1px solid var(--main-border-color);
+  border-radius: .5rem;
+  background-color: var(--main-bg-color);
+  min-width: 30rem;
+  min-height: 30rem;
+}

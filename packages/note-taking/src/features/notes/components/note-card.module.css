@@ -1,0 +1,23 @@
+.noteCardTitle {
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: .5rem;
+}
+
+.noteCardDescription {
+  color: var(--main-color);
+  line-height: 1.5;
+}
+.noteCardBody {
+  display: flex;
+  flex-direction: column;
+  padding: .75rem;
+}
+
+.noteCardFooter {
+  display: flex;
+  border-top: solid 1px var(--main-border-color);
+  padding: .5rem;
+  justify-content: flex-end;
+  gap: .5rem;
+}

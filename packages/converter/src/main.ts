@@ -1,6 +1,7 @@
 import './style.css';
-import { fetchCurrencies, fetchLatestExchangeRates } from './api';
 import type { Conversion, Currencies } from '../types/currency';
+
+import { fetchCurrencies, fetchLatestExchangeRates } from './api';
 
 const baseCurrencyElement = document.querySelector<HTMLSelectElement>('#base-currency')
 const targetCurrencyElement = document.querySelector<HTMLSelectElement>('#target-currency')
@@ -19,13 +20,13 @@ if (!baseCurrencyElement || !targetCurrencyElement || !formElement || !conversio
 }
 
 export function addCurrenciesToElement(element: Element, currencies: Currencies) {
-  Object.keys(currencies).forEach((currency) => {
+  for (const currency of Object.keys(currencies)) {
     const option = document.createElement('option')
     option.setAttribute('value', currency)
     const label = document.createTextNode(currency);
-    option.appendChild(label)
-    element.appendChild(option)
-  })
+    option.append(label)
+    element.append(option)
+  }
 }
 
 async function convertCurrency(value: number, base: string, target: string) {
@@ -51,16 +52,16 @@ function displayConversionResult(resultLabel: string) {
 
   const label = document.createTextNode(`Le résultat est de ${resultLabel}`);
   resultElement.innerHTML = ''
-  resultElement.appendChild(label)
+  resultElement.append(label)
 }
 
-function createTableRow(columns: string[]) {
+function createTableRow(columns: Array<string>) {
   const rowElement = document.createElement('tr')
-  Object.values(columns).forEach((column) => {
+  for (const column of Object.values(columns)) {
     const columnElement = document.createElement('td')
     columnElement.innerHTML = column
-    rowElement.appendChild(columnElement)
-  })
+    rowElement.append(columnElement)
+  }
   return rowElement
 }
 

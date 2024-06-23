@@ -3,7 +3,7 @@ import { Layout } from "../components/layout/layout";
 import { AppRoot } from "./routes/index";
 import { noteRoute } from "./routes/notes/note";
 import { CreateNoteRoute } from "./routes/notes/create-note";
-import {  UpdateNoteRoute, updateNoteRoute } from "./routes/notes/update-note";
+import { updateNoteRoute } from "./routes/notes/update-note";
 
 const rootRoute = createRootRoute({
   component: () => (

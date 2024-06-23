@@ -1,6 +1,11 @@
 import { Link, createRoute } from "@tanstack/react-router"
-import { notesRoute } from "../../routes"
+
+import { Button } from "../../../components/ui/button"
+import { CreateUpdateNoteForm } from "../../../features/notes/components/create-update-note-form"
 import { useNotesStore } from "../../../features/notes/hooks/use-notes-store"
+import { notesRoute } from "../../routes"
+
+import styles from './note.module.css'
 
 export const updateNoteRoute = createRoute({
   getParentRoute: () => notesRoute,
@@ -19,14 +24,18 @@ function UpdateNoteRoute(): JSX.Element {
 
   return (
     <>
-      <div className="flex justify-between items-center">
-        <h1 className="text-white text-3xl font-bold mb-2">{note.title}</h1>
-        <div className="flex gap-2 items-center">
-          <p className="px-3 py-2 bg-neutral-600 border border-neutral-300 text-neutral-300 rounded-full">Edition mode</p>
-          <Link to=".." params={ noteId } className="text-white">Quitter le mode édition</Link>
+      <div className={styles['noteHeader']}>
+        <h1 className={styles['noteTitle']}>Modifier la note</h1>
+        <div className={styles['noteDates']}>
+          <Link to="/notes/$noteId" params={{ noteId }}>
+            <Button>Annuler</Button>
+          </Link>
+          <Link to="/">
+            <Button variant="secondary">Revenir aux notes</Button>
+          </Link>
         </div>
       </div>
-      
+      <CreateUpdateNoteForm note={note} />
     </>
   )
 }

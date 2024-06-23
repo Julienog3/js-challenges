@@ -1,10 +1,20 @@
-import { CreateNoteForm } from "../../../features/notes/components/create-note-form"
+import { Link } from "@tanstack/react-router";
+
+import { Button } from "../../../components/ui/button";
+import { CreateUpdateNoteForm } from "../../../features/notes/components/create-update-note-form";
+
+import styles from './note.module.css'
 
 export function CreateNoteRoute(): JSX.Element {
   return (
     <>
-      <h1 className="font-bold text-xl mb-2 text-white">Ajouter une note</h1>
-      <CreateNoteForm />
+      <div className={styles['noteHeader']}>
+        <h1 className={styles['noteTitle']}>Ajouter une note</h1>
+        <Link to="/">
+          <Button>Revenir aux notes</Button>
+        </Link>
+      </div>
+      <CreateUpdateNoteForm />
     </>
   )
 }

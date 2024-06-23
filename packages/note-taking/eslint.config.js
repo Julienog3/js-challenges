@@ -47,7 +47,7 @@ const unicorn = [
 	eslintPluginUnicorn.configs['flat/recommended'],
 	{
 		rules: {
-			'unicorn/filename-case': ['error', { case: 'snakeCase' }],
+			'unicorn/filename-case': ['error', { case: 'kebabCase' }],
 			'unicorn/prevent-abbreviations': [
 				'error',
 				{

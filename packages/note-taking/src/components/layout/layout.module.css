@@ -1,0 +1,14 @@
+.layout {
+  background-color: var(--main-bg-color);
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+.page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem;
+  min-height: 100vh;
+}

@@ -1,0 +1,17 @@
+.header {
+  display: flex;
+  padding: 1rem;
+  border-bottom: solid 1px var(--main-border-color);
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  background-color: var(--main-bg-color);
+  top: 0;
+  left: 0;
+}
+
+.headerTitle {
+  color: #fff;
+  font-weight: 500;
+  font-size: 1.15rem;
+}

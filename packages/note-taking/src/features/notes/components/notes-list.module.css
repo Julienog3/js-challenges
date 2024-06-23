@@ -1,0 +1,7 @@
+.notesList {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+/* container grid grid-cols-4 gap-4 */
