@@ -31,7 +31,11 @@ export function addCurrenciesToElement(element: Element, currencies: Currencies)
 
 async function convertCurrency(value: number, base: string, target: string) {
   const ratio = await fetchLatestExchangeRates(base, target)
-  return value * ratio[target]
+  const targetCurrencyRatio = ratio[target]
+
+  if (!targetCurrencyRatio) return
+
+  return value * targetCurrencyRatio
 }
 
 function saveConversion(base: string, result: string) {

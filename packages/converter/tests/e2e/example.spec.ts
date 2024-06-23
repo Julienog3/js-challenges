@@ -1,13 +1,10 @@
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
+
+import { test } from './fixtures';
 
 test('has title', async ({ page }) => {
 	await page.goto('/');
+	await expect(page.getByTestId('base-currency')).toBeVisible()
+	// await page.waitForResponse('https://api.freecurrencyapi.com/v1/currencies*');
 	await expect(page).toHaveTitle('Convertisseur de devise en ligne');
-});
-
-test('has heading', async ({ page }) => {
-	await page.goto('/');
-
-	// Expects page to have a heading with the name of Installation.
-	await expect(page.getByRole('heading', { name: 'Hello World!' })).toBeVisible();
 });

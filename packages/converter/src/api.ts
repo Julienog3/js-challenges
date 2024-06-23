@@ -1,4 +1,4 @@
-import type { Currencies } from "../types/currency";
+import type { APIResponse, Currencies, LatestExchangeRate } from "../types/currency";
 
 const BASE_URL = import.meta.env.VITE_CONVERTER_API_URL
 const API_KEY = import.meta.env.VITE_CONVERTER_API_KEY
@@ -12,15 +12,18 @@ export async function fetchCurrencies(): Promise<Currencies> {
   const cachedResponse = await cache.match(url)
 
   if (cachedResponse) {
-    const { data } = await cachedResponse.json();
+    const { data } = await cachedResponse.json() as APIResponse<Currencies>;
     return data
   }
 
   const response = await fetch(url)
-  const data = await response.clone();
-  await cache.put(url, data)
+  
+  const responseCloned = response.clone()
+  const { data } = await response.json()
 
-  return data.json()
+  await cache.put(url, responseCloned)
+
+  return data
 }
 
 export async function fetchLatestExchangeRates(base: string, target: string) {
@@ -30,6 +33,6 @@ export async function fetchLatestExchangeRates(base: string, target: string) {
   url.searchParams.append('currencies', target)
 
   const response = await fetch(url)
-  const { data } = await response.json();
+  const { data } = await response.json() as APIResponse<LatestExchangeRate>;
   return data
 }

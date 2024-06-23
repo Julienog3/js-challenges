@@ -1,5 +1,4 @@
-export interface Currencies {
-  [currency: string]: {
+export type Currencies = Record<string, {
     symbol: string
     name: string
     symbol_native: string
@@ -8,8 +7,7 @@ export interface Currencies {
     name_plural: string
     rounding: number
     type: string
-  }
-}
+  }>;
 
 export type LatestExchangeRate = Record<string, number>
 
@@ -18,3 +16,5 @@ export interface Conversion {
   targetCurrency: string
   convertedAt: string
 }
+
+export type APIResponse<T> = { data: T } 
