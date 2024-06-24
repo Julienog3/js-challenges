@@ -1,38 +1,20 @@
-import type { APIResponse, Currencies, LatestExchangeRate } from "../types/currency";
+import type { Currencies, LatestExchangeRate } from "../types/currency";
 
-const BASE_URL = import.meta.env.VITE_CONVERTER_API_URL
-const API_KEY = import.meta.env.VITE_CONVERTER_API_KEY
+import { APIClient } from "./api_client";
+
+const apiClient = APIClient.instance;
 
 export async function fetchCurrencies(): Promise<Currencies> {
-  const cache = await caches.open('currencies-cache');
-
-  const url = new URL('v1/currencies', BASE_URL)
-  url.searchParams.append('apikey', API_KEY)
-
-  const cachedResponse = await cache.match(url)
-
-  if (cachedResponse) {
-    const { data } = await cachedResponse.json() as APIResponse<Currencies>;
-    return data
-  }
-
-  const response = await fetch(url)
-  
-  const responseCloned = response.clone()
-  const { data } = await response.json()
-
-  await cache.put(url, responseCloned)
-
-  return data
+  return await apiClient.makeRequest<Currencies>({ endpoint: 'v1/currencies', isCached: true })
 }
 
 export async function fetchLatestExchangeRates(base: string, target: string) {
-  const url = new URL('v1/latest', BASE_URL)
-  url.searchParams.append('apikey', API_KEY)
-  url.searchParams.append('base_currency', base)
-  url.searchParams.append('currencies', target)
+  return await apiClient.makeRequest<LatestExchangeRate>({ 
+    endpoint: 'v1/latest', 
+    searchParams: { 
+      'base_currency': base, 
+      'currencies': target
+    } 
+  })
 
-  const response = await fetch(url)
-  const { data } = await response.json() as APIResponse<LatestExchangeRate>;
-  return data
 }

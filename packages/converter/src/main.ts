@@ -32,8 +32,6 @@ export function populateSelectWithCurrencies(element: Element, currencies: Curre
   }
 }
 
-
-
 function saveConversion(base: string, result: string) {
   const conversion: Conversion = {
     baseCurrency: base,
