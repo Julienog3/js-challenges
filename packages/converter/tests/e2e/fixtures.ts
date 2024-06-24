@@ -3,7 +3,7 @@ import { test as base } from "@playwright/test";
 const fakeNow = new Date(2024, 4, 15, 13, 30, 48).valueOf();
 
 export const test = base.extend({
-  page: async ({ baseURL, page }, use) => {      
+  page: async ({ page }, use) => {      
     await page.route('https://api.freecurrencyapi.com/v1/currencies*', async (route) => {
       await route.fulfill({ json: {
         data: {
@@ -42,7 +42,11 @@ export const test = base.extend({
     });
 
     await page.route('https://api.freecurrencyapi.com/v1/latest*', async (route) => {
-      await route.fulfill({ json: {} });
+      await route.fulfill({ json: {
+        data: { 
+          USD: 1.068649883
+        }
+      }});
     });
 
     await page.addInitScript(`{

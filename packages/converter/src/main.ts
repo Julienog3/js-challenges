@@ -2,9 +2,10 @@ import './style.css';
 import type { Conversion, Currencies } from '../types/currency';
 
 import { fetchCurrencies, fetchLatestExchangeRates } from './api';
+import { calculateValue } from './utils';
 
-const baseCurrencyElement = document.querySelector<HTMLSelectElement>('#base-currency')
-const targetCurrencyElement = document.querySelector<HTMLSelectElement>('#target-currency')
+const baseCurrencySelect = document.querySelector<HTMLSelectElement>('#base-currency')
+const targetCurrencySelect = document.querySelector<HTMLSelectElement>('#target-currency')
 const valueElement = document.querySelector<HTMLInputElement>('#value')
 const formElement = document.querySelector<HTMLFormElement>('#form')
 const resultElement = document.querySelector<HTMLParagraphElement>('#result')
@@ -13,30 +14,25 @@ const conversionsTableElement = document.querySelector<HTMLTableElement>('#conve
 let baseCurrency: string;
 let targetCurrency: string;
 
-const currencies = await fetchCurrencies()
+let currencies: Currencies;
 
-if (!baseCurrencyElement || !targetCurrencyElement || !formElement || !conversionsTableElement) {
+if (!baseCurrencySelect || !targetCurrencySelect || !formElement || !conversionsTableElement) {
   throw new Error('Elements not defined')
 }
 
-export function addCurrenciesToElement(element: Element, currencies: Currencies) {
+export function populateSelectWithCurrencies(element: Element, currencies: Currencies) {
   for (const currency of Object.keys(currencies)) {
     const option = document.createElement('option')
     option.setAttribute('value', currency)
+
     const label = document.createTextNode(currency);
     option.append(label)
+
     element.append(option)
   }
 }
 
-async function convertCurrency(value: number, base: string, target: string) {
-  const ratio = await fetchLatestExchangeRates(base, target)
-  const targetCurrencyRatio = ratio[target]
 
-  if (!targetCurrencyRatio) return
-
-  return value * targetCurrencyRatio
-}
 
 function saveConversion(base: string, result: string) {
   const conversion: Conversion = {
@@ -47,7 +43,7 @@ function saveConversion(base: string, result: string) {
 
   if (!conversionsTableElement) return
 
-  const tableRowElement = createTableRow(Object.values(conversion))
+  const tableRowElement = createTableRow(Object.values(conversion) as Array<string>)
   conversionsTableElement.prepend(tableRowElement)
 }
 
@@ -69,32 +65,54 @@ function createTableRow(columns: Array<string>) {
   return rowElement
 }
 
-addCurrenciesToElement(baseCurrencyElement, currencies)
-addCurrenciesToElement(targetCurrencyElement, currencies)
+async function convertCurrency(value: number) {
+  const ratio = await fetchLatestExchangeRates(baseCurrency, targetCurrency)
+  return calculateValue(value, ratio, targetCurrency)
+}
 
-baseCurrencyElement.addEventListener('input', (e) => {
-  if (!(e.target instanceof HTMLSelectElement)) return;
-  baseCurrency = e.target.value
+baseCurrencySelect.addEventListener('input', (event) => {
+  if (!(event.target instanceof HTMLSelectElement)) return;
+  baseCurrency = event.target.value
 })
 
-targetCurrencyElement.addEventListener('input', (e) => {
-  if (!(e.target instanceof HTMLSelectElement)) return;
-  targetCurrency = e.target.value
+targetCurrencySelect.addEventListener('input', (event) => {
+  if (!(event.target instanceof HTMLSelectElement)) return;
+  targetCurrency = event.target.value
 })
 
-formElement.addEventListener('submit', async (e) => {
-  e.preventDefault()
-
+async function submitConversion() {
   if (!valueElement || !resultElement) return
   
   const value = +valueElement.value
-  const result = await convertCurrency(value, baseCurrency, targetCurrency)
+  const result = await convertCurrency(value)
 
   const currency = currencies[targetCurrency]
 
   const baseLabel = `${value.toFixed(2)} ${baseCurrency}`
-  const resultLabel = `${result.toFixed(2)} ${currency?.symbol}`
+  const resultLabel = `${result} ${currency?.symbol}`
   
   saveConversion(baseLabel, resultLabel)
   displayConversionResult(resultLabel)
+}
+
+async function setup() {
+  currencies = await fetchCurrencies()
+
+  if (!baseCurrencySelect || !targetCurrencySelect) {
+    throw new Error('Elements not defined.')
+  }
+
+  populateSelectWithCurrencies(baseCurrencySelect, currencies)
+  populateSelectWithCurrencies(targetCurrencySelect, currencies) 
+}
+
+window.addEventListener('load', () => {
+  void setup()
+})
+
+formElement.addEventListener('submit', (event) => {
+  event.preventDefault()
+  event.stopPropagation()
+
+  void submitConversion()
 })

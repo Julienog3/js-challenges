@@ -2,9 +2,12 @@ import { expect } from '@playwright/test';
 
 import { test } from './fixtures';
 
-test('has title', async ({ page }) => {
+test('convert EUR to USD', async ({ page }) => {
 	await page.goto('/');
+	await page.getByTestId('value').fill('5')
 	await expect(page.getByTestId('base-currency')).toBeVisible()
-	// await page.waitForResponse('https://api.freecurrencyapi.com/v1/currencies*');
-	await expect(page).toHaveTitle('Convertisseur de devise en ligne');
+	await page.getByTestId('base-currency').selectOption('EUR');
+	await page.getByTestId('target-currency').selectOption('USD');
+	await page.getByTestId('submit-btn').click()
+	await expect(page.getByTestId('result-label')).toHaveText('Le résultat est de 5.34 $')
 });

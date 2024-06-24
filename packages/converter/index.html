@@ -15,18 +15,18 @@
 				</header>
 				<form id="form">
 					<fieldset role="group">
-						<input id="value" placeholder="Valeur" type="number">
+						<input data-testid="value" id="value" placeholder="Valeur" type="number">
 						<select id="base-currency" data-testid="base-currency">
 							<option value="" disabled selected>Devise de base</option>
 						</select>
-						<select id="target-currency" >
+						<select id="target-currency" data-testid="target-currency">
 							<option value="" disabled selected>Devise cible</option>
 						</select>
 						</div>
-						<button type="submit">Convertir</button>
+						<button data-testid="submit-btn" type="submit">Convertir</button>
 					</fieldset>
 				</form>
-				<p id="result"></p>
+				<p data-testid="result-label" id="result"></p>
 			</article>
 			<h4>Historique de conversion</h4>
 			<table id="conversions-table">
