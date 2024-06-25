@@ -32,7 +32,7 @@ export function NoteCard(props: Props) {
 
   return (
     <Link to="/notes/$noteId" params={{ noteId: note.id }}>
-      <Card>
+      <Card data-testid="note-card">
         <div className={styles['noteCardBody']}>
           <h3 className={styles['noteCardTitle']}>{note.title}</h3>
           <p className={styles['noteCardDescription']}>{formatToExcerpt(note.content)}</p>

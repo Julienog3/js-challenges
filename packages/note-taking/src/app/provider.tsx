@@ -5,7 +5,7 @@ export function AppProvider({ children }: React.PropsWithChildren): JSX.Element 
     <>
       <React.Suspense
         fallback={
-          <div className="flex h-screen w-screen items-center justify-center">
+          <div className="">
             Spinner
           </div>
         }

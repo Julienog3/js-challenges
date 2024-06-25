@@ -36,6 +36,7 @@ const typescript = [
 			'@typescript-eslint/no-empty-interface': ['error', { allowSingleExtends: true }],
 			'@typescript-eslint/consistent-type-definitions': 'off',
 			'@typescript-eslint/array-type': ['error', { default: 'generic' }],
+			'@typescript-eslint/no-empty-function': ['error', { allow: ['private-constructors'] }],
 		},
 	},
 ];

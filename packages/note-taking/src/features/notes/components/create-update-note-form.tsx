@@ -26,35 +26,35 @@ export function CreateUpdateNoteForm(props: Props) {
     content: ''
   })
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
     if (note) {
       updateNote(newNote as Note)
-      return await navigate({ to: "/" })
+      return void navigate({ to: "/notes/$noteId", params: { noteId: newNote.id } })
     }
 
     addNote(newNote)
-    return await navigate({ to: "/" })
+    return void navigate({ to: "/" })
   }  
 
   return (
     <form className={styles['noteForm']} onSubmit={handleSubmit}>
       <div className={styles['noteFormRow']}>
         <label className={styles['noteFormLabel']}>Titre</label>
-        <Input type="text" value={newNote.title} onChange={(event) => setNewNote(note => ({
+        <Input data-testid="note-title-input" type="text" value={newNote.title} onChange={(event) => setNewNote(note => ({
           ...note,
           title: event.target.value
         }))} placeholder="Intitulé de la note"/>
       </div>
       <div className={styles['noteFormRow']}>
         <label className={styles['noteFormLabel']}>Contenu</label>
-        <Textarea value={newNote.content} onChange={(event) => setNewNote(note => ({
+        <Textarea data-testid="note-content-input" value={newNote.content} onChange={(event) => setNewNote(note => ({
           ...note,
           content: event.target.value
         }))} placeholder="Lorem ipsum dolor sit amet..."></Textarea>
       </div>
-      <Button type="submit">{note ? 'Modifier la note' : 'Ajouter une note'}</Button>
+      <Button data-testid="submit-note-btn" type="submit">{note ? 'Modifier la note' : 'Ajouter une note'}</Button>
     </form>
   )
 }

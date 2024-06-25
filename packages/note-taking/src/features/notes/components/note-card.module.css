@@ -11,7 +11,7 @@
 .noteCardBody {
   display: flex;
   flex-direction: column;
-  padding: .75rem;
+  padding: 1rem;
 }
 
 .noteCardFooter {

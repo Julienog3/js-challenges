@@ -1,4 +1,3 @@
-/* eslint-disable n/no-unsupported-features/node-builtins */
 import type { Note, NoteDTO } from "../../../types/note";
 
 import { create } from "zustand";
@@ -17,6 +16,7 @@ export const useNotesStore = create<State>()(
       notes: [],
       addNote: (newNote: NoteDTO) => {
         const note: Note = {
+          // eslint-disable-next-line n/no-unsupported-features/node-builtins
           id: crypto.randomUUID(),
           createdAt: new Date().toString(),
           updatedAt: new Date().toString(),

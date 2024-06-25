@@ -1,13 +1,16 @@
-import { NotFoundRoute, Outlet, createRootRoute, createRoute, createRouter, redirect } from "@tanstack/react-router";
+import { NotFoundRoute, Outlet, ScrollRestoration, createRootRoute, createRoute, createRouter } from "@tanstack/react-router";
+
 import { Layout } from "../components/layout/layout";
+
 import { AppRoot } from "./routes/index";
-import { noteRoute } from "./routes/notes/note";
 import { CreateNoteRoute } from "./routes/notes/create-note";
+import { noteRoute } from "./routes/notes/note";
 import { updateNoteRoute } from "./routes/notes/update-note";
 
 const rootRoute = createRootRoute({
   component: () => (
     <Layout>
+      <ScrollRestoration />
       <Outlet />
     </Layout>
   )
@@ -21,12 +24,7 @@ const indexRoute = createRoute({
 
 export const notesRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: 'notes',
-  loader: ({ params }) => {
-    // if (Object.keys(params).length === 0) {
-    //   throw redirect({ to: '/' })
-    // }
-  }
+  path: 'notes'
 })
 
 const createNoteRoute = createRoute({

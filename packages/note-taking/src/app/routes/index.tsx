@@ -17,7 +17,7 @@ export function AppRoot() {
         ? <NotesList notes={notes} />
         : (
           <div className={styles['noteEmpty']}>
-            <p className="text-white">Vous n&apos; avez pas encore de notes, <Link to="/notes/create" className="text-blue-500">ajoutez-en une</Link></p>
+            <p>Vous n&apos; avez pas encore de notes, <Link to="/notes/create">ajoutez-en une</Link></p>
           </div>
         )
       }

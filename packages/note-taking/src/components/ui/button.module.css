@@ -10,6 +10,11 @@
   font-weight: 400;
   color: #000;
   cursor: pointer;
+  transition: .25s all ease-in-out;
+
+  &:hover {
+    filter: brightness(.75);
+  }
 }
 
 .primary {
